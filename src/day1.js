@@ -1,8 +1,32 @@
 module.exports = {
-  getDistance(stepsStr) {
+  getDistanceAfterWalk(stepsStr) {
     let steps = stepsStr.split(', ');
     let result = this.walkSteps(steps);
+    return this.getDistance(result);
+  },
+
+  getDistanceOfRepeatedLocation(stepsStr) {
+    let steps = stepsStr.split(', ');
+    let result = this.walkSteps(steps);
+    let repeatedLocation = this.getRepeatedLocation(result.history);
+    return this.getDistance(repeatedLocation);
+  },
+
+  getDistance(result) {
     return Math.abs(result.north) + Math.abs(result.east);
+  },
+
+  getRepeatedLocation(history) {
+    let foo = [];
+    for (let i = 0; i< history.length; i++) {
+      let json = JSON.stringify(history[i]);
+      if (foo.indexOf(json) > -1)
+      {
+        return history[i];
+      }
+      foo.push(json);
+    }
+    return {north:0, east: 0}; // just as a fallback
   },
 
   walkSteps(steps) {
@@ -11,21 +35,25 @@ module.exports = {
       let turnDirection = nextStep[0];
       let distance = parseInt(nextStep.substring(1), 10);
       state.direction = this.getNextDirection(state.direction, turnDirection);
-      switch (state.direction) {
-        case 'N':
-          state.north += distance;
-          break;
-        case 'S':
-          state.north -= distance;
-          break;
-        case 'E':
-          state.east += distance;
-          break;
-        case 'W':
-          state.east -= distance;
-          break;
+      for (var i = 0; i < distance; i++) {
+        switch (state.direction) {
+          case 'N':
+            state.north++;
+            break;
+          case 'S':
+            state.north--;
+            break;
+          case 'E':
+            state.east++;
+            break;
+          case 'W':
+            state.east--;
+            break;
+        }
+
+        state.history.push({east: state.east, north: state.north});
       }
-      // currentState.distance += distance;
+
       return state;
     }
 
@@ -35,7 +63,8 @@ module.exports = {
         north: 0,
         east: 0,
         direction: 'N',
-        distance: 0
+        distance: 0,
+        history: []
       }
     );
   },
