@@ -3,8 +3,8 @@ const assert = require('assert');
 
 const testInput = 
 `5 1 9 5
-7 5 3
-2 4 6 8`;
+	7 5 3
+	2 4 6 8`;
 const input = 
 `626	2424	2593	139	2136	163	1689	367	2235	125	2365	924	135	2583	1425	2502
 183	149	3794	5221	5520	162	5430	4395	2466	1888	3999	3595	195	181	6188	4863
@@ -48,5 +48,39 @@ describe('2017 - day 2', () => {
   });
 
   console.log('Checksum of provided input: ', day2.getChecksum(input));
+
+  describe('fancier checksum', () => {
+  	it('finds 8 and 2 and divides them', () => {
+  		assert.equal(
+	  		day2.divisibleNumbersDivision([5,9,2,8]),
+	  		4
+			);
+	  });
+  	it('finds 9 and 3 and divides them', () => {
+  		assert.equal(
+	  		day2.divisibleNumbersDivision([9, 4, 7, 3]),
+	  		3
+			);
+	  });
+  	it('finds 6 and 3 and divides them', () => {
+  		assert.equal(
+	  		day2.divisibleNumbersDivision([3, 8, 6, 5]),
+	  		2
+			);
+	  });
+
+	  it('Gives the right check sum for the test input', () => {
+	  	assert.equal(
+		  	day2.getChecksum(
+		  		`5 9 2 8
+					9 4 7 3
+					3 8 6 5`,
+					day2.divisibleNumbersDivision),
+		  	9
+	  	);
+	  })
+  });
+  console.log('Fancier checksum of provided input: ', day2.getChecksum(input, day2.divisibleNumbersDivision));
+
 });
 
