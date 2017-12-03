@@ -1,10 +1,10 @@
 {
-  "name": "2016-code-advent",
+  "name": "code-advent",
   "version": "1.0.0",
-  "description": "mkopinsky's code advent 2016 work",
+  "description": "mkopinsky's code advent work",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/**"
   },
   "author": "Michael Kopinsky <mkopinsky@gmail.com>",
   "license": "MIT",
